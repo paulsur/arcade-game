@@ -1,11 +1,13 @@
 // Enemies our player must avoid
-var Enemy = function() {
+var Enemy = function(x,y) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
+    this.x = x;
+    this.y = y;
 };
 
 // Update the enemy's position, required method for game
@@ -14,6 +16,13 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+    // console.log("dt: " + dt + " x: " + this.x);
+    this.x += (dt * GB.ENEMY_SPEED);
+    //reset position once enemy croses screen
+    if (this.x > GB.COLS[GB.COLS.length -1] + 101) {
+      this.x = GB.COLS[0] - getRandomizer(0,6)*83;
+      this.y = GB.ROWS[getRandomizer(1,3)];
+    }
 };
 
 // Draw the enemy on the screen, required method for game
@@ -47,7 +56,7 @@ Player.prototype.handleInput = function(code) {
   }
   this.y = Math.min(Math.max(0,this.y),395);
   this.x = Math.min(Math.max(0,this.x),404);
-  console.log("x: " + this.x + " -- y:" + this.y);
+  // console.log("x: " + this.x + " -- y:" + this.y);
 };
 
 var player = new Player();
@@ -56,7 +65,9 @@ var player = new Player();
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 var allEnemies = [];
-allEnemies.push(new Enemy());
+for (var i = 0; i < GB.ENEMY_NUM; i++) {
+  allEnemies.push(new Enemy(GB.COLS[0] - getRandomizer(0,6)*83, GB.ROWS[getRandomizer(1,3)]));
+}
 
 
 // This listens for key presses and sends the keys to your
@@ -71,3 +82,8 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+// from: http://stackoverflow.com/questions/1527803/generating-random-numbers-in-javascript-in-a-specific-range
+function getRandomizer(bottom, top) {
+  return Math.floor( Math.random() * ( 1 + top - bottom ) ) + bottom;
+}
