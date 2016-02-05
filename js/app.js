@@ -39,30 +39,15 @@ Player.prototype.render = function() {
 };
 
 Player.prototype.handleInput = function(code) {
-  console.log(code);
-  var i;
   switch(code) {
-    case "up":
-      for (i = 0; i < GB.ROWS.length; i++) {
-          if (this.y == GB.ROWS[i] && i > 0) {
-            this.y = GB.ROWS[i-1];
-            break;
-          }
-      }
-      break;
-    case "down":
-    for (i = 0; i < GB.ROWS.length-1; i++) {
-        if (this.y == GB.ROWS[i]) {
-          this.y = GB.ROWS[i+1];
-          break;
-        }
-    }
-    break;
-
-    case "left":
-
-    case "right":
+    case "up": this.y -= 83; break;
+    case "down": this.y += 83; break;
+    case "left": this.x -= 101; break;
+    case "right": this.x += 101; break;
   }
+  this.y = Math.min(Math.max(0,this.y),395);
+  this.x = Math.min(Math.max(0,this.x),404);
+  console.log("x: " + this.x + " -- y:" + this.y);
 };
 
 var player = new Player();
