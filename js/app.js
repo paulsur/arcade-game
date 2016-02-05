@@ -25,7 +25,9 @@ Enemy.prototype.render = function() {
 // This class requires an update(), render() and
 // a handleInput() method.
 var Player = function() {
-
+  this.sprite = 'images/char-boy.png';
+  this.x = GB.PLAYER_START_X;
+  this.y = GB.PLAYER_START_Y;
 };
 
 Player.prototype.update = function(dt) {
@@ -33,11 +35,34 @@ Player.prototype.update = function(dt) {
 };
 
 Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+  ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-Player.prototype.handleInput = function(dt) {
+Player.prototype.handleInput = function(code) {
+  console.log(code);
+  var i;
+  switch(code) {
+    case "up":
+      for (i = 0; i < GB.ROWS.length; i++) {
+          if (this.y == GB.ROWS[i] && i > 0) {
+            this.y = GB.ROWS[i-1];
+            break;
+          }
+      }
+      break;
+    case "down":
+    for (i = 0; i < GB.ROWS.length-1; i++) {
+        if (this.y == GB.ROWS[i]) {
+          this.y = GB.ROWS[i+1];
+          break;
+        }
+    }
+    break;
 
+    case "left":
+
+    case "right":
+  }
 };
 
 var player = new Player();
@@ -46,6 +71,7 @@ var player = new Player();
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 var allEnemies = [];
+allEnemies.push(new Enemy());
 
 
 // This listens for key presses and sends the keys to your
