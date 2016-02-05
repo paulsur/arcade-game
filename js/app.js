@@ -18,7 +18,7 @@ Enemy.prototype.update = function(dt) {
     // all computers.
     // console.log("dt: " + dt + " x: " + this.x);
     this.x += (dt * GB.ENEMY_SPEED);
-    //reset position once enemy croses screen
+    //reset position once enemy crosses screen
     if (this.x > GB.COLS[GB.COLS.length -1] + 101) {
       this.x = GB.COLS[0] - getRandomizer(0,6)*83;
       this.y = GB.ROWS[getRandomizer(1,3)];
@@ -40,7 +40,18 @@ var Player = function() {
 };
 
 Player.prototype.update = function(dt) {
+  //collision detection
+  for (var i = 0; i < GB.ENEMY_NUM; i++) {
+    if (this.x < allEnemies[i].x + GB.X_COLLISION && this.x > allEnemies[i].x - GB.X_COLLISION &&
+      this.y < allEnemies[i].y + GB.Y_COLLISION && this.y > allEnemies[i].y - GB.Y_COLLISION) {
+      this.reset();
+    }
+  }
+};
 
+Player.prototype.reset = function() {
+  this.x = GB.PLAYER_START_X;
+  this.y = GB.PLAYER_START_Y;
 };
 
 Player.prototype.render = function() {
