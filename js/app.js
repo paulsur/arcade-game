@@ -37,6 +37,8 @@ var Player = function() {
   this.sprite = 'images/char-boy.png';
   this.x = GB.PLAYER_START_X;
   this.y = GB.PLAYER_START_Y;
+  this.points = 0;
+  this.scoreText = "";
 };
 
 Player.prototype.update = function(dt) {
@@ -47,6 +49,11 @@ Player.prototype.update = function(dt) {
       this.reset();
     }
   }
+  //win criteria
+  if (this.y <= 0) {
+    this.points++;
+    this.reset();
+  }
 };
 
 Player.prototype.reset = function() {
@@ -55,6 +62,14 @@ Player.prototype.reset = function() {
 };
 
 Player.prototype.render = function() {
+  ctx.font = "18px Arial";
+  //overwrite old text with white
+  ctx.fillStyle = "#ffffff";
+  ctx.fillText(this.scoreText, 15, 28);
+  //add new score text
+  ctx.fillStyle = "#000000";
+  this.scoreText = "Score: " + this.points;
+  ctx.fillText(this.scoreText, 15, 28);
   ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
