@@ -19,7 +19,7 @@ Enemy.prototype.update = function(dt) {
     // console.log("dt: " + dt + " x: " + this.x);
     this.x += (dt * GB.ENEMY_SPEED);
     //reset position once enemy crosses screen
-    if (this.x > GB.COLS[GB.COLS.length -1] + 101) {
+    if (this.x > GB.COLS[GB.COLS.length - 1] + 101) {
       this.x = GB.COLS[0] - getRandomizer(0,6)*83;
       this.y = GB.ROWS[getRandomizer(1,3)];
     }
@@ -62,12 +62,12 @@ Player.prototype.reset = function() {
 };
 
 Player.prototype.render = function() {
-  ctx.font = "18px Arial";
+  ctx.font = '18px Arial';
   //overwrite old text with white
-  ctx.fillStyle = "#ffffff";
+  ctx.fillStyle = '#fff';
   ctx.fillText(this.scoreText, 15, 28);
   //add new score text
-  ctx.fillStyle = "#000000";
+  ctx.fillStyle = '#000';
   this.scoreText = "Score: " + this.points;
   ctx.fillText(this.scoreText, 15, 28);
   ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -85,7 +85,7 @@ Player.prototype.handleInput = function(code) {
   // console.log("x: " + this.x + " -- y:" + this.y);
 };
 
-var player = new Player();
+GB.player = new Player();
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
@@ -106,7 +106,7 @@ document.addEventListener('keyup', function(e) {
         40: 'down'
     };
 
-    player.handleInput(allowedKeys[e.keyCode]);
+    GB.player.handleInput(allowedKeys[e.keyCode]);
 });
 
 // from: http://stackoverflow.com/questions/1527803/generating-random-numbers-in-javascript-in-a-specific-range
